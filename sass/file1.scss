@@ -1,0 +1,54 @@
+$sys-collapsible-section-bg-color:#ffffff !default;
+$sys-collapsible-section-padding-y:17px !default; 
+$sys-collapsible-section-padding-x:24px !default; 
+$sys-collapsible-section-fg-color:#49647C !default;
+/**
+ * Variables
+ */ 
+.sys-collapsible-section{
+    position:relative;
+    background-color:$sys-collapsible-section-bg-color;
+    margin-bottom:1px;
+    user-select: none;
+}
+
+$sys-collapsible-section-label-text-transform:uppercase !default; 
+$sys-collapsible-section-label-font-size:13px !default; 
+$sys-collapsible-section-label-letter-spacing:1px !default; 
+$sys-collapsible-section-label-line-height:1.1em !default; 
+.sys-collapsible-section__label{
+    position:relative;
+    cursor:pointer;
+    padding-top:$sys-collapsible-section-padding-y;
+    padding-bottom:$sys-collapsible-section-padding-y;
+    padding-left:$sys-collapsible-section-padding-x;
+    padding-right:$sys-collapsible-section-padding-x;
+    color:$sys-collapsible-section-fg-color;
+    text-transform:$sys-collapsible-section-label-text-transform;
+    font-size:$sys-collapsible-section-label-font-size;
+    line-height:$sys-collapsible-section-label-line-height;
+    letter-spacing: $sys-collapsible-section-label-letter-spacing;
+}
+
+.sys-collapsible-section__expand{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%); 
+    font-size:24px;
+    right:$sys-collapsible-section-padding-x;
+    transition: all 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sys-collapsible-section__content{
+    display:block; 
+    position:relative;
+    padding-left:$sys-collapsible-section-padding-x;
+    padding-right:$sys-collapsible-section-padding-x;
+    padding-top:$sys-collapsible-section-padding-y;
+    padding-bottom:$sys-collapsible-section-padding-y;
+    color:$sys-collapsible-section-fg-color;
+}
+
+.sys-collapsible-section__content-wrapper{
+    position:relative;
+}
