@@ -5,19 +5,36 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 
-let regex = /((\$[^\(\)\{\}\:\;]+?):([^\(\)\{\}\:\;]+?);)|(\/\*[\s\S]+?\*\/)|(\/\/[\s\S]+?\n)/g;
+let regex = /((\$[^\(\)\{\}\:\;]+?):([^\{\}\:\;]+?);)|(\/\*[\s\S]+?\*\/)|(\/\/[\s\S]+?\n)/g;
 let regexWithoutComments = /((\$[^\(\)\{\}\:\;]+?):([^\(\)\{\}\:\;]+?);)/g;
 
 module.exports = function(opts){
     var vars = {};
     let withComments = opts && opts.withComments;
+    let varNameRegex = opts && opts.varNameRegex; 
     let reg = regex; 
     let commentFilter = (opts && opts.commentFilter) || function(c){return c;};
-    let filter = (opts && opts.filter) || function(name,val,lines,vv){return vars[val] || val;};
+    let filter = (opts && opts.filter) || function(name,val,lines,vv){
+        if (varNameRegex) {
+            var keys = Object.keys(vars);
+            let r = new RegExp(`(${keys.join('|')})`, 'ig');
+            varNameRegex.lastIndex = 0; 
+            if (varNameRegex.test(name)){
+                return val.replace(r, (e, v) => vars[v]); 
+            }
+            return val; 
+        } else if (vars[val]) {
+            return vars[val];
+        } else {
+            var keys = Object.keys(vars); 
+            let r = new RegExp(`(${keys.join('|')})`,'ig');
+            return val.replace(r,(e,v)=>vars[v]); 
+        }
+    };
     if (opts && typeof opts.brandingVariablesFile == "string"){
         if (fs.existsSync(opts.brandingVariablesFile)){
             var contents = fs.readFileSync(opts.brandingVariablesFile).toString(); 
-            contents.replace(/(\$[^:;@\{\}\(\)]+):([^:;\{\}@\(\)]+);/g, (e, name, val) => {
+            contents.replace(/(\$[^:;@\{\}\(\)]+):([^:;\{\}@]+?);/g, (e, name, val) => {
                 vars[val.replace(/[\s]*!default[\s]*/g, '')] = name; 
             })
         }

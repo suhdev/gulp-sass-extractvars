@@ -101,3 +101,28 @@ gulp.task('default',(cb)=>{
 });
 
 ```
+
+
+### 4. Using varNameRegex 
+
+You can pass a regex to test the variable name against it. If the test succeeds, the variabe value will be changed with
+its corresponding value from the supplied settings. 
+
+```js
+
+
+gulp.task('default',(cb)=>{
+    pump([
+        gulp.src([path.resolve(process.cwd(), './sass/*.scss')]),
+        sass({
+            varNameRegex:/(fg-color|bg-color|font-size|padding-y|padding-x)/,
+            brandingVariablesFile:path.resolve(__dirname,'_settings.scss'),
+        }),
+        concat('_extracted.scss'),
+        gulp.dest(path.resolve(process.cwd(), './dist'))
+    ],(err)=>{
+        cb(err); 
+    });
+});
+
+```
