@@ -1,5 +1,5 @@
 {
-  "name": "gulp-extract-sassvars",
+  "name": "gulp-sass-extractvars",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
